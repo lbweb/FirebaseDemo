@@ -31,13 +31,16 @@ var app = angular.module('firebaseDemoApp', [
                 controller: 'AboutCtrl'
             })
             .when('/map', {
-                authRequired: true,
                 templateUrl: 'views/map.html',
                 controller: 'mapCtrl'
             })
             .when('/login', {
                 templateUrl: 'views/login.html',
                 controller: 'AuthCtrl'
+            })
+            .when('/databoxes', {
+                templateUrl: 'views/databoxes.html',
+                controller: 'DataBoxCtrl'
             })
             .otherwise({
                 redirectTo: '/'
