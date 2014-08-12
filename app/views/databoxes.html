@@ -10,12 +10,16 @@
     <th>Date Created</th>
     <th>Last Modified</th>
     <th>Actions</th>
+    <th></th>
+    <th></th>
   </tr>
-<tr ng-repeat="data in databoxes track by $index">
+<tr ng-repeat="(dataId, data) in databoxes">
   <td>{{ data.name }}</td>
   <td>{{ data.created | date:'MM/dd/yyyy @ h:mma'}}</td>
   <td>{{ data.modified | date:'MM/dd/yyyy @ h:mma' }}</td>
-  <td></td>
+   <td>{{  }}</td>
+  <td><button ng-click="removeDatabox({{dataId}})">Delete</button></td>
+  <td><button >{{dataId}}</button></td>
 </tr>
 
 

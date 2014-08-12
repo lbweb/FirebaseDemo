@@ -7,8 +7,12 @@
  * # AboutCtrl
  * Controller of the firebaseDemoApp
  */
-app.controller('DataBoxCtrl', function($scope, FIREBASE_URL, $log, $modal, $firebase) {
+app.controller('DataBoxCtrl', function($scope, $log, $modal, $firebase, Databox) {
 
+
+    /**
+    SET DEFAULTS
+    **/
 
     function resetDataBox() {
         $scope.databox = {
@@ -19,17 +23,15 @@ app.controller('DataBoxCtrl', function($scope, FIREBASE_URL, $log, $modal, $fire
     };
 
     $scope.databoxes = [];
-
     $scope.isLoaded = false;
 
-    var ref = new Firebase(FIREBASE_URL + '/databoxes');
-    var sync = $firebase(ref);
+    /**
+    FIREBASE
+    **/
 
-    var databoxes = sync.$asArray();
 
-    databoxes.$loaded().then(function() {
-
-        $scope.databoxes = databoxes;
+    Databox.initialLoad().then(function(data) {
+        $scope.databoxes = data;
         $scope.isLoaded = true;
     });
 
@@ -42,7 +44,6 @@ app.controller('DataBoxCtrl', function($scope, FIREBASE_URL, $log, $modal, $fire
 
     $scope.showDataBoxModal = function() {
         newDataBoxModal.$promise.then(newDataBoxModal.show);
-
     };
 
     $scope.saveDatabox = function() {
@@ -50,12 +51,18 @@ app.controller('DataBoxCtrl', function($scope, FIREBASE_URL, $log, $modal, $fire
         $scope.databox.created = Date.now();
         $scope.databox.modified = Date.now();
 
-        sync.$push($scope.databox).then(function() {
+        Databox.create($scope.databox).then(function(data) {
+            console.log('data from Firebase' + data);
             resetDataBox();
             newDataBoxModal.hide();
+        });
 
+    };
+
+    $scope.removeDatabox = function(ref) {
+        Databox.delete(ref).then(function(ref) {
+            console.log(ref.name());
         })
-
     };
 
 
