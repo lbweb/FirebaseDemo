@@ -7,7 +7,7 @@
  * # AboutCtrl
  * Controller of the firebaseDemoApp
  */
-app.controller('DataBoxCtrl', function($scope, $log, $modal, $firebase, Databox) {
+app.controller('DataBoxCtrl', function($scope, $log, $modal, $firebase, $rootScope, Databox, waitForAuth) {
 
 
     /**
@@ -18,22 +18,34 @@ app.controller('DataBoxCtrl', function($scope, $log, $modal, $firebase, Databox)
         $scope.databox = {
             name: '',
             created: '',
-            modified: ''
+            modified: '',
+            userId: ''
         }
     };
 
     $scope.databoxes = [];
     $scope.isLoaded = false;
 
+
     /**
     FIREBASE
     **/
 
-
-    Databox.initialLoad().then(function(data) {
-        $scope.databoxes = data;
-        $scope.isLoaded = true;
+    waitForAuth.then(function() {
+        Databox.initialLoad().then(function(data) {
+            if (data.length === 0) {
+                console.log('there are no databoxes');
+            };
+            $scope.databoxes = data;
+            $scope.isLoaded = true;
+        });
     });
+
+
+    $rootScope.$watch('activeDataBox', function(newVal, oldVal) {
+        Databox.setActive($id);
+    });
+
 
     var newDataBoxModal = $modal({
         scope: $scope,
@@ -46,10 +58,15 @@ app.controller('DataBoxCtrl', function($scope, $log, $modal, $firebase, Databox)
         newDataBoxModal.$promise.then(newDataBoxModal.show);
     };
 
+    $scope.makeActive = function(data) {
+        $rootScope.activeDataBox = data;
+    };
+
     $scope.saveDatabox = function() {
 
         $scope.databox.created = Date.now();
         $scope.databox.modified = Date.now();
+        $scope.databox.userId = $rootScope.LoggedUser.id;
 
         Databox.create($scope.databox).then(function(data) {
             console.log('data from Firebase' + data);

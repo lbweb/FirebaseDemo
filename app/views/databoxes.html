@@ -17,9 +17,9 @@
   <td>{{ data.name }}</td>
   <td>{{ data.created | date:'MM/dd/yyyy @ h:mma'}}</td>
   <td>{{ data.modified | date:'MM/dd/yyyy @ h:mma' }}</td>
-   <td>{{  }}</td>
-  <td><button ng-click="removeDatabox({{dataId}})">Delete</button></td>
-  <td><button >{{dataId}}</button></td>
+  <td><button ng-click="removeDatabox({{$index}})">Delete</button>
+    <button ng-click="makeActive(data)">Open</button></td>
+
 </tr>
 
 

@@ -7,7 +7,7 @@
  * # MainCtrl
  * Controller of the firebaseDemoApp
  */
-app.controller('AuthCtrl', function($scope, Auth, $log, $firebaseSimpleLogin, $location, $modal) {
+app.controller('AuthCtrl', function($scope, Auth, $log, $firebaseSimpleLogin, $location, $modal, Databox) {
 
 
     $scope.user = {
@@ -23,7 +23,7 @@ app.controller('AuthCtrl', function($scope, Auth, $log, $firebaseSimpleLogin, $l
     $scope.registerUser = function() {
 
         Auth.register($scope.user).then(function(data) {
-            $log.info(data);
+            console.log(data);
         }, function(error) {
             $log.info(error);
         });
@@ -55,8 +55,19 @@ app.controller('AuthCtrl', function($scope, Auth, $log, $firebaseSimpleLogin, $l
         show: false
     });
 
+
+    var registerModal = $modal({
+        scope: $scope,
+        template: 'views/templates/modal.register.html',
+        show: false
+    });
+
     $scope.showLoginModal = function() {
         loginModal.$promise.then(loginModal.show);
+    };
+
+    $scope.showRegisterModal = function() {
+        registerModal.$promise.then(registerModal.show);
     };
 
     if ($location.path() == '/login') {
