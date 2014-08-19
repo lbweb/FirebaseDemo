@@ -1,3 +1,4 @@
+/* global Firebase */
 'use strict';
 
 
@@ -24,7 +25,7 @@ app.factory('Auth', function($firebaseSimpleLogin, FIREBASE_URL, $rootScope) {
         }
     };
 
-    $rootScope.$on("$firebaseSimpleLogin:login", function(e, user) {
+    $rootScope.$on('$firebaseSimpleLogin:login', function(e, user) {
         $rootScope.LoggedUser = user;
         console.log($rootScope.LoggedUser);
     });

@@ -1,3 +1,5 @@
+/* jshint camelcase:false */
+
 'use strict';
 
 /**
@@ -77,7 +79,7 @@ app.controller('InstaCtrl', function($scope, instaAPI, $log) {
 
     $scope.loadResultsBtnClick = function() {
         runInstaQuery($scope.queryTerms);
-    }
+    };
 
 
 
@@ -91,7 +93,7 @@ app.controller('InstaCtrl', function($scope, instaAPI, $log) {
             $scope.queryResults = d.data.data.media_count;
             showTagResult();
         });
-    }
+    };
 
 
 

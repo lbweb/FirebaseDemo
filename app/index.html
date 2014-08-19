@@ -41,12 +41,12 @@
 
 
                   <ul class="nav navbar-nav navbar-right" ng-controller="AuthCtrl" >
-
-                  <li class="active"><a href="/#/instagram">InstaMap</a></li>
+        <li ng-show-auth="login"><button type="button" class="btn btn-success navbar-btn" ng-show="activeDataBox.name" ng-cloak>{{activeDataBox.name}}</button></li>
+                  <li><a href="/#/instagram">InstaMap</a></li>
                   <li><a ng-href="/#/databoxes" ng-show="isSignedIn()">Databoxes</a></li>
 
                   <li class="dropdown" >
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
+                      <a  href="" class="dropdown-toggle" data-toggle="dropdown">Account <span class="caret"></span></a>
                       <ul class="dropdown-menu" role="menu" >
                         <li ng-show-auth="login"><a href="/account">Logged in as {{LoggedUser.email}}</a></li>
                          <li ng-show-auth="logout"><a ng-click="showRegisterModal()" href="#">Register</a></li>
@@ -86,13 +86,13 @@
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
      <script>
-       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+       // (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+       // (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+       // m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+       // })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-       ga('create', 'UA-XXXXX-X');
-       ga('send', 'pageview');
+       // ga('create', 'UA-XXXXX-X');
+       // ga('send', 'pageview');
     </script>
 
     <!-- build:js(.) scripts/oldieshim.js -->
@@ -140,6 +140,7 @@
         <script src="scripts/controllers/login.js"></script>
         <script src="scripts/controllers/auth.js"></script>
         <script src="scripts/controllers/explore.js"></script>
+        <script src="scripts/controllers/mining.js"></script>
 
 
         <!-- endbuild -->

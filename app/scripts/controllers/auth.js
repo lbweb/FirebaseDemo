@@ -7,7 +7,7 @@
  * # MainCtrl
  * Controller of the firebaseDemoApp
  */
-app.controller('AuthCtrl', function($scope, Auth, $log, $firebaseSimpleLogin, $location, $modal, Databox) {
+app.controller('AuthCtrl', function($scope, Auth, $log, $firebaseSimpleLogin, $location, $modal, $rootScope) {
 
 
     $scope.user = {
@@ -16,9 +16,15 @@ app.controller('AuthCtrl', function($scope, Auth, $log, $firebaseSimpleLogin, $l
         'confirmPassword': ''
     };
 
+
+
     $scope.testVar = 'hello';
 
     $scope.errors = [];
+
+    $rootScope.$watch('activeDataBox', function(newVal, oldVal) {
+        $scope.activeDataBox = newVal;
+    });
 
     $scope.registerUser = function() {
 
@@ -31,6 +37,7 @@ app.controller('AuthCtrl', function($scope, Auth, $log, $firebaseSimpleLogin, $l
     };
 
     $scope.logout = function() {
+        $rootScope.activeDataBox = null;
         Auth.logout();
     };
 
@@ -42,9 +49,9 @@ app.controller('AuthCtrl', function($scope, Auth, $log, $firebaseSimpleLogin, $l
 
         Auth.login($scope.user).then(function(user) {
             loginModal.hide();
-            $log.info("Logged in as: ", user.email);
+            $location.path('/databoxes/');
         }, function(error) {
-            $log.info("Login failed: ", error);
+            $log.info('Login failed: ', error);
         });
 
     };
@@ -70,9 +77,9 @@ app.controller('AuthCtrl', function($scope, Auth, $log, $firebaseSimpleLogin, $l
         registerModal.$promise.then(registerModal.show);
     };
 
-    if ($location.path() == '/login') {
+    if ($location.path() === '/login') {
         $scope.showLoginModal();
-    };
+    }
 
 
 });

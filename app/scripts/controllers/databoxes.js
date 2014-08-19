@@ -19,9 +19,10 @@ app.controller('DataBoxCtrl', function($scope, $log, $modal, $firebase, $rootSco
             name: '',
             created: '',
             modified: '',
-            userId: ''
-        }
-    };
+            userId: '',
+            isActive: false
+        };
+    }
 
     $scope.databoxes = [];
     $scope.isLoaded = false;
@@ -35,15 +36,17 @@ app.controller('DataBoxCtrl', function($scope, $log, $modal, $firebase, $rootSco
         Databox.initialLoad().then(function(data) {
             if (data.length === 0) {
                 console.log('there are no databoxes');
-            };
+            }
             $scope.databoxes = data;
             $scope.isLoaded = true;
+            angular.forEach(data, function(value, key) {
+                if (value.isActive === true) {
+                    Databox.setActive(key, function(val) {
+                        //console.log(val);
+                    });
+                }
+            });
         });
-    });
-
-
-    $rootScope.$watch('activeDataBox', function(newVal, oldVal) {
-        Databox.setActive($id);
     });
 
 
@@ -58,8 +61,10 @@ app.controller('DataBoxCtrl', function($scope, $log, $modal, $firebase, $rootSco
         newDataBoxModal.$promise.then(newDataBoxModal.show);
     };
 
-    $scope.makeActive = function(data) {
-        $rootScope.activeDataBox = data;
+    $scope.makeActive = function(id) {
+        Databox.setActive(id, function(val) {
+            //console.log(val);
+        });
     };
 
     $scope.saveDatabox = function() {
@@ -79,7 +84,7 @@ app.controller('DataBoxCtrl', function($scope, $log, $modal, $firebase, $rootSco
     $scope.removeDatabox = function(ref) {
         Databox.delete(ref).then(function(ref) {
             console.log(ref.name());
-        })
+        });
     };
 
 

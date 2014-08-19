@@ -46,12 +46,16 @@ var app = angular.module('firebaseDemoApp', [
                 templateUrl: 'views/instagram.html',
                 controller: 'InstaCtrl'
             })
+            .when('/explore', {
+                templateUrl: 'views/explore.html',
+                controller: 'ExploreCtrl'
+            })
             .otherwise({
                 redirectTo: '/'
-            })
+            });
     })
     .constant('FIREBASE_URL', 'https://disastermapp.firebaseio.com/')
     .constant('loginRedirectPath', '/login')
     .run(function($rootScope) {
-        $rootScope.activeDataBox = '';
+        $rootScope.activeDataBox = null;
     });

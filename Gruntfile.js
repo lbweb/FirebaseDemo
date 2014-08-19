@@ -140,7 +140,7 @@ module.exports = function(grunt) {
         less: {
             all: {
                 files: {
-                    "<%= yeoman.app %>/styles/main.css": "<%= yeoman.app %>/styles/{,*/}*.less"
+                    '<%= yeoman.app %>/styles/main.css': '<%= yeoman.app %>/styles/{,*/}*.less'
                 }
             }
         },

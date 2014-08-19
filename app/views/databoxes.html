@@ -18,7 +18,8 @@
   <td>{{ data.created | date:'MM/dd/yyyy @ h:mma'}}</td>
   <td>{{ data.modified | date:'MM/dd/yyyy @ h:mma' }}</td>
   <td><button ng-click="removeDatabox({{$index}})">Delete</button>
-    <button ng-click="makeActive(data)">Open</button></td>
+    <button ng-click="makeActive({{$index}})">Open</button>
+    <span class="badge" ng-show="data.isActive">ACTIVE</span></td>
 
 </tr>
 

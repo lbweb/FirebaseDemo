@@ -1,3 +1,4 @@
+/* global RouteSecurityManager */
 'use strict';
 
 angular.module('routeSecurity', [])
@@ -77,7 +78,7 @@ RouteSecurityManager.prototype = {
             if (route.pathTo === undefined) {
                 this._redirectTo = this._location.path();
             } else {
-                this._redirectTo = route.pathTo === path ? "/" : route.pathTo;
+                this._redirectTo = route.pathTo === path ? '/' : route.pathTo;
             }
             this._redirect(path);
         } else if (this._authenticated && this._location.path() === this._loginPath) {
