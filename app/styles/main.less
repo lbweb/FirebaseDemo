@@ -60,5 +60,56 @@ h2{font-size:18px;}
 
 
 
+.masonry-brick {background-color:#fff;  width:22.928176794%; max-width:300px; overflow:hidden; padding:10px;
+  margin-bottom:30px;background-color:#efefef; border-radius:5px;}
+.masonry-brick p {font-size:12px; margin-top:6px;}
+.masonry-brick img{max-width:95%;}
+
+div.grid-holder div.gutter-sizer { width: 2.762430939%; }
+div.grid-holder button.save-btn {position:absolute; top:10px; right:10px;}
+/*
+ * ngRepeat triggers three animation events: enter, leave and move.
+ */
+.masonry-brick.ng-enter,
+.masonry-brick.ng-leave,
+.masonry-brick.ng-move {
+  -webkit-transition:0.5s linear opacity;
+  transition:0.5s linear opacity;
+}
+
+
+.masonry-brick.ng-enter-stagger,
+.masonry-brick.ng-leave-stagger,
+.masonry-brick.ng-move-stagger {
+  /* 50ms between each item being animated after the other */
+  -webkit-transition-delay:100ms;
+  transition-delay:100ms;
+
+  /* this is required here to prevent any CSS inheritance issues */
+  -webkit-transition-duration:0;
+  transition-duration:0;
+}
+
+/* ending enter and move styling
+   (this is what the element will animate from */
+.masonry-brick.ng-enter,
+.masonry-brick.ng-move { opacity:0; }
+
+/* ending enter and move styling
+   (this is what the element will animate towards */
+.masonry-brick.ng-enter.ng-enter-active,
+.masonry-brick.ng-move.ng-move-active { opacity:1; }
+
+/* starting leave animation */
+.masonry-brick.ng-leave { opacity:1; }
+
+/* ending leave animation */
+.masonry-brick.ng-leave.ng-leave-active { opacity:0; }
+
+
+
+
+
+
 }
 

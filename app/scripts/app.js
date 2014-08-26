@@ -18,7 +18,8 @@ var app = angular.module('firebaseDemoApp', [
         'firebase',
         'mgcrea.ngStrap',
         'routeSecurity',
-        'simpleLoginTools'
+        'simpleLoginTools',
+        'wu.masonry'
     ])
     .config(function($routeProvider) {
         $routeProvider
@@ -49,6 +50,10 @@ var app = angular.module('firebaseDemoApp', [
             .when('/explore', {
                 templateUrl: 'views/explore.html',
                 controller: 'ExploreCtrl'
+            })
+            .when('/view', {
+                templateUrl: 'views/viewdata.html',
+                controller: 'ViewCtrl'
             })
             .otherwise({
                 redirectTo: '/'

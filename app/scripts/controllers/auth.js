@@ -7,7 +7,8 @@
  * # MainCtrl
  * Controller of the firebaseDemoApp
  */
-app.controller('AuthCtrl', function($scope, Auth, $log, $firebaseSimpleLogin, $location, $modal, $rootScope) {
+app.controller('AuthCtrl', function($scope, Auth, $log, $firebaseSimpleLogin, $location, $modal, $rootScope, Instapile) {
+
 
 
     $scope.user = {
@@ -24,17 +25,19 @@ app.controller('AuthCtrl', function($scope, Auth, $log, $firebaseSimpleLogin, $l
 
     $rootScope.$watch('activeDataBox', function(newVal, oldVal) {
         $scope.activeDataBox = newVal;
+        Instapile.loadUp();
     });
 
     $scope.registerUser = function() {
 
-        Auth.register($scope.user).then(function(data) {
-            console.log(data);
+        Auth.register($scope.user).then(function() {
+            registerModal.hide();
         }, function(error) {
             $log.info(error);
         });
 
     };
+
 
     $scope.logout = function() {
         $rootScope.activeDataBox = null;

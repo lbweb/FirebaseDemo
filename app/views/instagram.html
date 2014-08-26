@@ -19,10 +19,11 @@
 
 <div class="row">
  <div class="col-md-12">
+
             <div class="queryTerms"  ng-show="showLoading" class="pull-left">Running Query on Term: <b> {{ queryTerms }} .... </b></div>
             <div class="queryResults"  ng-show="showTagResult">Total Posts with terms:<b> {{ queryTerms }}  </b> is {{ queryResults }}
 
-            <button class="btn btn-primary" ng-click="loadResultsBtnClick()">Show me what you got!</button>
+            <button class="btn btn-primary"   ng-click="loadResultsBtnClick()">Show me what you got!</button>
 
             </div>
 </div>
@@ -76,8 +77,17 @@
                     <div class="grid-holder">
 
 
-                                <div masonry masonry-options="{ transitionDuration: '0' }" >
+                                <div masonry masonry-options="{ 'transitionDuration': '0', 'gutter': '.gutter-sizer' }" >
+
+                                  <div class="gutter-sizer"></div>
+
+
                                     <div class="masonry-brick repeat-item" ng-repeat="(key, post) in currentInstaObject.currentData">
+
+
+                                 <button class="btn btn-primary save-btn"  ng-click="pinIt($index)" ng-hide="post.pinned">{{post.pinned}}
+                                  <span class="glyphicon glyphicon-thumbs-up"></span> Pin It
+                                  </button>
 
                                         <img ng-src="{{ post.images.low_resolution.url }}" alt="A masonry brick" >
                        <p>{{post.caption.text}}</p>

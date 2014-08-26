@@ -42,8 +42,9 @@
 
                   <ul class="nav navbar-nav navbar-right" ng-controller="AuthCtrl" >
         <li ng-show-auth="login"><button type="button" class="btn btn-success navbar-btn" ng-show="activeDataBox.name" ng-cloak>{{activeDataBox.name}}</button></li>
-                  <li><a href="/#/instagram">InstaMap</a></li>
-                  <li><a ng-href="/#/databoxes" ng-show="isSignedIn()">Databoxes</a></li>
+                  <li><a href="/#/instagram" ng-show-auth="login">Find </a></li>
+                   <li><a href="/#/view" ng-show-auth="login">View </a></li>
+                  <li><a ng-href="/#/databoxes" ng-show-auth="login">Databoxes</a></li>
 
                   <li class="dropdown" >
                       <a  href="" class="dropdown-toggle" data-toggle="dropdown">Account <span class="caret"></span></a>
@@ -119,6 +120,18 @@
     <script src="bower_components/angular-strap/dist/angular-strap.tpl.min.js"></script>
     <script src="bower_components/firebase-simple-login/firebase-simple-login.js"></script>
     <script src="bower_components/angularfire/dist/angularfire.min.js"></script>
+    <script src="bower_components/get-style-property/get-style-property.js"></script>
+    <script src="bower_components/get-size/get-size.js"></script>
+    <script src="bower_components/eventie/eventie.js"></script>
+    <script src="bower_components/doc-ready/doc-ready.js"></script>
+    <script src="bower_components/eventEmitter/EventEmitter.js"></script>
+    <script src="bower_components/jquery-bridget/jquery.bridget.js"></script>
+    <script src="bower_components/matches-selector/matches-selector.js"></script>
+    <script src="bower_components/outlayer/item.js"></script>
+    <script src="bower_components/outlayer/outlayer.js"></script>
+    <script src="bower_components/masonry/masonry.js"></script>
+    <script src="bower_components/imagesloaded/imagesloaded.js"></script>
+    <script src="bower_components/angular-masonry/angular-masonry.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -130,8 +143,11 @@
 
         <script src="scripts/app.js"></script>
         <script src="scripts/services/auth.js"></script>
+        <script src="scripts/services/user.js"></script>
         <script src="scripts/services/databox.js"></script>
          <script src="scripts/services/instapi.js"></script>
+          <script src="scripts/services/instapile.js"></script>
+        <script src="scripts/controllers/view.js"></script>
         <script src="scripts/controllers/instahunt.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/map.js"></script>
@@ -140,7 +156,7 @@
         <script src="scripts/controllers/login.js"></script>
         <script src="scripts/controllers/auth.js"></script>
         <script src="scripts/controllers/explore.js"></script>
-        <script src="scripts/controllers/mining.js"></script>
+
 
 
         <!-- endbuild -->

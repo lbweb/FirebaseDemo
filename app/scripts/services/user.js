@@ -1,58 +1,34 @@
 'use strict';
 
 
-app.factory('User', function($firebase, FIREBASE_URL, Auth, $rootScope) {
-    var ref = new Firebase(FIREBASE_URL + 'users');
+app.factory('User', function($firebase, FIREBASE_URL, $rootScope, $q) {
 
-    var users = $firebase(ref);
+    var refurl = FIREBASE_URL + 'users/';
+    var ref = new Firebase(refurl);
+    var sync = $firebase(ref);
 
-    function setCurrentUser(username) {
-        $rootScope.currentUser = User.findByUsername(username);
-    }
-
-    //on login event set current user
-    $rootScope.$on('$firebaseSimpleLogin:login', function(e, authUser) {
-        var query = $firebase(ref.startAt(authUser.uid).endAt(authUser.uid));
-
-        query.$on('loaded', function() {
-            setCurrentUser(query.$getIndex()[0]);
-        });
-    });
-
-    //on logout wevent clear up current user
-    $rootScope.$on('$firebaseSimpleLogin:logout', function() {
-        delete $rootScope.currentUser;
-    });
 
     var User = {
-        create: function(authUser, username) {
-            users[username] = {
-                md5_hash: authUser.md5_hash,
-                username: username,
-                $priority: authUser.uid
-            };
+        createUser: function(userObj) {
+            var deferred = $q.defer();
 
-            users.$save(username).then(function() {
-                setCurrentUser(username);
+            sync.$set(userObj.uid, userObj.user).then(function(returndata) {
+                deferred.resolve(returndata);
             });
-        },
 
-        findByUsername: function(username) {
-            if (username) {
-                return users.$child(username);
-            }
+            return deferred.promise;
         },
-
-        getCurrent: function() {
-            return $rootScope.currentUser;
-        },
-
-        signedIn: function() {
-            return $rootScope.currentUser !== undefined;
+        listUsers: function(uid) {
+            var list = sync.$asArray();
+            var fullList = list.$loaded().then(function() {
+                console.log("list has " + list.length + " items");
+                return list;
+            });
+            return fullList;
         }
     };
 
 
-
     return User;
+
 });

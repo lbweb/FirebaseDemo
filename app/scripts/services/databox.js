@@ -3,11 +3,14 @@
 'use strict';
 
 
-app.factory('Databox', function($firebase, FIREBASE_URL, Auth, $rootScope, waitForAuth) {
+app.factory('Databox', function($firebase, FIREBASE_URL, $rootScope, $q) {
+
 
 
     var UserDatabox = {};
     var activeDataboxId = null;
+    var AllDataboxes = {};
+    var allSync = null;
     /*
     PRIVATE FUNCTION THAT SYNCS DATABOXES PER USER
     */
@@ -16,6 +19,12 @@ app.factory('Databox', function($firebase, FIREBASE_URL, Auth, $rootScope, waitF
         var sync = $firebase(ref);
         var databoxes = sync.$asArray();
         UserDatabox = databoxes;
+    }
+
+    function loadAllDataboxes(uid, databoxKey) {
+        var allRef = new Firebase(FIREBASE_URL + '/databoxes/' + uid + '/' + databoxKey);
+        console.log(uid);
+        allSync = $firebase(allRef);
     }
 
     function setActiveDataBox(id) {
@@ -28,7 +37,23 @@ app.factory('Databox', function($firebase, FIREBASE_URL, Auth, $rootScope, waitF
             loadUserDataboxes();
             return UserDatabox.$loaded();
         },
-
+        list: function() {
+            return UserDatabox;
+        },
+        listOthers: function(id) {
+            console.log(id);
+        },
+        addOthers: function(uid, databoxData) {
+            var deferred = $q.defer();
+            var tempObj = angular.copy(databoxData);
+            loadAllDataboxes(uid, tempObj.$id);
+            delete tempObj.$id;
+            delete tempObj.$priority;
+            allSync.$set(tempObj).then(function(result) {
+                deferred.resolve(result);
+            });
+            return deferred.promise;
+        },
         setActive: function(id, callback) {
             if (activeDataboxId !== null) {
                 UserDatabox[activeDataboxId].isActive = false;

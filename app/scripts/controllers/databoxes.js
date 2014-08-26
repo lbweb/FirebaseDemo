@@ -7,7 +7,7 @@
  * # AboutCtrl
  * Controller of the firebaseDemoApp
  */
-app.controller('DataBoxCtrl', function($scope, $log, $modal, $firebase, $rootScope, Databox, waitForAuth) {
+app.controller('DataBoxCtrl', function($scope, $log, $modal, $firebase, $rootScope, Databox, User) {
 
 
     /**
@@ -20,34 +20,27 @@ app.controller('DataBoxCtrl', function($scope, $log, $modal, $firebase, $rootSco
             created: '',
             modified: '',
             userId: '',
-            isActive: false
+            isActive: false,
+            isOwner: false
         };
     }
 
-    $scope.databoxes = [];
-    $scope.isLoaded = false;
+    //deal with later;
+    $scope.isLoaded = true;
 
 
+    $scope.addDataboxToUser = function(i, a) {
+        a.isOwner = false;
+        Databox.addOthers(i, a).then(function(returned) {
+            console.log(returned);
+        });
+    };
     /**
     FIREBASE
     **/
 
-    waitForAuth.then(function() {
-        Databox.initialLoad().then(function(data) {
-            if (data.length === 0) {
-                console.log('there are no databoxes');
-            }
-            $scope.databoxes = data;
-            $scope.isLoaded = true;
-            angular.forEach(data, function(value, key) {
-                if (value.isActive === true) {
-                    Databox.setActive(key, function(val) {
-                        //console.log(val);
-                    });
-                }
-            });
-        });
-    });
+    $scope.databoxes = Databox.list();
+    $scope.userList = User.listUsers();
 
 
     var newDataBoxModal = $modal({
@@ -72,7 +65,7 @@ app.controller('DataBoxCtrl', function($scope, $log, $modal, $firebase, $rootSco
         $scope.databox.created = Date.now();
         $scope.databox.modified = Date.now();
         $scope.databox.userId = $rootScope.LoggedUser.id;
-
+        $scope.databox.isOwner = true;
         Databox.create($scope.databox).then(function(data) {
             console.log('data from Firebase' + data);
             resetDataBox();

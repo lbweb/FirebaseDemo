@@ -10,10 +10,13 @@
  * Controller of the instaViewApp
  */
 
-app.controller('InstaCtrl', function($scope, instaAPI, $log) {
+app.controller('InstaCtrl', function($scope, instaAPI, $log, Instapile, $rootScope, waitForAuth) {
 
     var counter = 0;
     var globalIteration = 0;
+
+    $scope.InstaPileList = Instapile.list();
+
     $scope.currentInstaObject = {
         iteration: 0,
         currentData: []
@@ -25,6 +28,8 @@ app.controller('InstaCtrl', function($scope, instaAPI, $log) {
 
 
     $scope.currentSearchQuery = 'Insert Search Query';
+
+
 
     var showTagLoading = function() {
         $scope.showLoading = true;
@@ -42,6 +47,7 @@ app.controller('InstaCtrl', function($scope, instaAPI, $log) {
 
 
 
+
         if (counter < 5) {
 
             //$log.info(counter);
@@ -51,9 +57,15 @@ app.controller('InstaCtrl', function($scope, instaAPI, $log) {
 
                 $scope.currentInstaObject.iteration = globalIteration + 1;
 
-                $log.info(InstaObject);
-
                 angular.forEach(InstaObject.data, function(value) {
+
+                    angular.forEach($scope.InstaPileList, function(instaValue) {
+                        if (instaValue.id === value.id) {
+                            value.pinned = true;
+                        } else {
+                            value.pinned = false;
+                        }
+                    });
                     $scope.currentInstaObject.currentData.push(value);
                 });
 
@@ -64,6 +76,7 @@ app.controller('InstaCtrl', function($scope, instaAPI, $log) {
                 } else {
 
                     $log.info('succesfully ended');
+
                 }
 
 
@@ -81,7 +94,14 @@ app.controller('InstaCtrl', function($scope, instaAPI, $log) {
         runInstaQuery($scope.queryTerms);
     };
 
+    $scope.pinIt = function(id) {
+        $scope.currentInstaObject.currentData[id].pinned = true;
+        var tempObj = angular.copy($scope.currentInstaObject.currentData[id]);
 
+        Instapile.add(tempObj).then(function(data) {
+            console.log(data);
+        });
+    };
 
 
     $scope.searchEntered = function() {
