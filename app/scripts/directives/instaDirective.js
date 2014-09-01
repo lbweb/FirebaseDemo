@@ -13,13 +13,13 @@ app.directive('instaDirective', function() {
         templateUrl: '../../views/templates/directive.instaDirective.html',
         link: function(scope, elem, attrs) {
             scope.pinIt = function(id) {
-                    scope.currentInstaObject.currentData[id].pinned = true;
+                scope.currentInstaObject.currentData[id].pinned = true;
                 var tempObj = angular.copy($scope.currentInstaObject.currentData[id]);
 
-                    Instapile.add(tempObj).then(function(data) {
-                        console.log(data);
-                    });
-                };
+                Instapile.add(tempObj).then(function(data) {
+                    console.log(data);
+                });
+            };
         }
     }
 });
