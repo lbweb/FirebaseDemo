@@ -6203,68 +6203,46 @@ h2 {
 }
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
-  .masonry-brick {
-    background-color: #fff;
-    width: 22.928176794%;
-    max-width: 300px;
-    overflow: hidden;
-    padding: 10px;
-    margin-bottom: 30px;
-    background-color: #efefef;
-    border-radius: 5px;
+  ul.navbar-nav li div.btn-group {
+    margin-right: 20px;
   }
-  .masonry-brick p {
+  .repeat-item {
+    margin-bottom: 30px;
+  }
+  .repeat-item div.thumbnail {
+    position: relative;
+  }
+  .repeat-item p {
     font-size: 12px;
     margin-top: 6px;
   }
-  .masonry-brick img {
-    max-width: 95%;
+  .repeat-item img {
+    max-width: 100%;
   }
-  div.grid-holder div.gutter-sizer {
-    width: 2.762430939%;
-  }
-  div.grid-holder button.save-btn {
+  .repeat-item button.save-btn {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 0px;
+    right: 0px;
   }
   /*
  * ngRepeat triggers three animation events: enter, leave and move.
  */
-  .masonry-brick.ng-enter,
-  .masonry-brick.ng-leave,
-  .masonry-brick.ng-move {
-    -webkit-transition: 0.5s linear opacity;
-    transition: 0.5s linear opacity;
-  }
-  .masonry-brick.ng-enter-stagger,
-  .masonry-brick.ng-leave-stagger,
-  .masonry-brick.ng-move-stagger {
-    /* 50ms between each item being animated after the other */
-    -webkit-transition-delay: 100ms;
-    transition-delay: 100ms;
-    /* this is required here to prevent any CSS inheritance issues */
-    -webkit-transition-duration: 0;
-    transition-duration: 0;
-  }
+  /* 50ms between each item being animated after the other */
+  /* this is required here to prevent any CSS inheritance issues */
   /* ending enter and move styling
    (this is what the element will animate from */
-  .masonry-brick.ng-enter,
-  .masonry-brick.ng-move {
-    opacity: 0;
-  }
   /* ending enter and move styling
    (this is what the element will animate towards */
-  .masonry-brick.ng-enter.ng-enter-active,
-  .masonry-brick.ng-move.ng-move-active {
-    opacity: 1;
-  }
   /* starting leave animation */
-  .masonry-brick.ng-leave {
-    opacity: 1;
-  }
   /* ending leave animation */
-  .masonry-brick.ng-leave.ng-leave-active {
+  .masonry-brick {
+    display: none;
     opacity: 0;
+    -webkit-transition: 4s linear opacity;
+    transition: 4s linear opacity;
+  }
+  .masonry-brick.loaded {
+    display: block;
+    opacity: 1;
   }
 }

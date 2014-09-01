@@ -43,64 +43,55 @@ app.controller('InstaCtrl', function($scope, instaAPI, $log, Instapile, $rootSco
 
     var runInstaQuery = function(max_id) {
 
-        counter++;
+        //counter++;
 
 
 
 
-        if (counter < 5) {
+        //if (counter < 5) {
 
-            //$log.info(counter);
+        //$log.info(counter);
 
 
-            instaAPI.getTagQuery($scope.queryTerms, max_id).success(function(InstaObject) {
+        instaAPI.getTagQuery($scope.queryTerms, max_id).success(function(InstaObject) {
 
-                $scope.currentInstaObject.iteration = globalIteration + 1;
+            $scope.currentInstaObject.iteration = globalIteration + 1;
 
-                angular.forEach(InstaObject.data, function(value) {
+            angular.forEach(InstaObject.data, function(value) {
 
-                    angular.forEach($scope.InstaPileList, function(instaValue) {
-                        if (instaValue.id === value.id) {
-                            value.pinned = true;
-                        } else {
-                            value.pinned = false;
-                        }
-                    });
-                    $scope.currentInstaObject.currentData.push(value);
+                angular.forEach($scope.InstaPileList, function(instaValue) {
+                    if (instaValue.id === value.id) {
+                        value.pinned = true;
+                    } else {
+                        value.pinned = false;
+                    }
                 });
+                $scope.currentInstaObject.currentData.push(value);
+            });
 
 
-                if (InstaObject.pagination.next_max_tag_id !== undefined) {
+            // if (InstaObject.pagination.next_max_tag_id !== undefined) {
 
-                    runInstaQuery(InstaObject.pagination.next_max_tag_id);
-                } else {
+            //     runInstaQuery(InstaObject.pagination.next_max_tag_id);
+            // } else {
 
-                    $log.info('succesfully ended');
+            //     $log.info('succesfully ended');
 
-                }
+            // }
 
 
 
-            })
-                .error(function(data) {
-                    $log.info(data);
-                });
-        }
+        })
+            .error(function(data) {
+                $log.info(data);
+            });
+        //}
     };
 
 
 
     $scope.loadResultsBtnClick = function() {
         runInstaQuery($scope.queryTerms);
-    };
-
-    $scope.pinIt = function(id) {
-        $scope.currentInstaObject.currentData[id].pinned = true;
-        var tempObj = angular.copy($scope.currentInstaObject.currentData[id]);
-
-        Instapile.add(tempObj).then(function(data) {
-            console.log(data);
-        });
     };
 
 
