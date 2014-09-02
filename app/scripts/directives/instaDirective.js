@@ -3,21 +3,22 @@
 'use strict';
 
 
-app.directive('instaDirective', function() {
+app.directive('instaDirective', function(Instapile) {
     return {
         restrict: 'AE',
         replace: true,
         scope: {
-            post: "=data"
+            index: '@index',
+            post: '=data'
         },
         templateUrl: '../../views/templates/directive.instaDirective.html',
         link: function(scope, elem, attrs) {
             scope.pinIt = function(id) {
-                scope.currentInstaObject.currentData[id].pinned = true;
-                var tempObj = angular.copy($scope.currentInstaObject.currentData[id]);
-
-                Instapile.add(tempObj).then(function(data) {
-                    console.log(data);
+                var tempObj = {};
+                scope.post.pinned = true;
+                angular.copy(scope.post, tempObj);
+                Instapile.add(tempObj).then(function(ref) {
+                    var id = ref.name();
                 });
             };
         }

@@ -15,12 +15,11 @@ app.controller('InstaCtrl', function($scope, instaAPI, $log, Instapile, $rootSco
     var counter = 0;
     var globalIteration = 0;
 
-    $scope.InstaPileList = Instapile.list();
+    var InstaPileList = [];
 
-    $scope.currentInstaObject = {
-        iteration: 0,
-        currentData: []
-    };
+
+
+    $scope.InstaList = [];
 
     $scope.queryTerms = '';
     $scope.showLoading = false;
@@ -28,8 +27,6 @@ app.controller('InstaCtrl', function($scope, instaAPI, $log, Instapile, $rootSco
 
 
     $scope.currentSearchQuery = 'Insert Search Query';
-
-
 
     var showTagLoading = function() {
         $scope.showLoading = true;
@@ -40,59 +37,81 @@ app.controller('InstaCtrl', function($scope, instaAPI, $log, Instapile, $rootSco
         $scope.showTagResult = true;
     };
 
-
     var runInstaQuery = function(max_id) {
 
-        //counter++;
+        Instapile.loadUp().then(function() {
+
+            InstaPileList = Instapile.list();
+
+            instaAPI.getTagQuery($scope.queryTerms, max_id).success(function(InstaObject) {
 
 
+                //LOAD UP CHANGES
 
 
-        //if (counter < 5) {
-
-        //$log.info(counter);
-
-
-        instaAPI.getTagQuery($scope.queryTerms, max_id).success(function(InstaObject) {
-
-            $scope.currentInstaObject.iteration = globalIteration + 1;
-
-            angular.forEach(InstaObject.data, function(value) {
-
-                angular.forEach($scope.InstaPileList, function(instaValue) {
-                    if (instaValue.id === value.id) {
-                        value.pinned = true;
-                    } else {
-                        value.pinned = false;
-                    }
+                angular.forEach(InstaObject.data, function(value, key) {
+                    // console.log('KEY = ' + key);
+                    angular.forEach(InstaPileList, function(instaValue, key) {
+                        //console.log(instaValue.id);
+                        //console.log(value.id);
+                        if (instaValue.id === value.id) {
+                            value.pinned = true;
+                        }
+                    });
+                    $scope.InstaList.push(value);
                 });
-                $scope.currentInstaObject.currentData.push(value);
-            });
-
-
-            // if (InstaObject.pagination.next_max_tag_id !== undefined) {
-
-            //     runInstaQuery(InstaObject.pagination.next_max_tag_id);
-            // } else {
-
-            //     $log.info('succesfully ended');
-
-            // }
 
 
 
-        })
-            .error(function(data) {
-                $log.info(data);
-            });
-        //}
+                //WATCH FOR FURTHER CHANGES
+
+                Instapile.list().$watch(function(event) {
+                    console.log(event);
+
+                    var changedObj = Instapile.get(event.key);
+
+                    angular.forEach(InstaPileList, function(obj, key) {
+
+                        if (obj.id === changedObj.id) {
+                            console.log(obj);
+                            console.log(changedObj);
+                        }
+                    });
+                });
+
+            })
+                .error(function(data) {
+                    $log.info(data);
+                });
+
+        });
     };
+
+
+
+
+    $scope.isPinned = function(checkId) {
+
+        // angular.forEach($scope.InstaPileList, function(InstaObj) {
+        //     console.log(InstaObj);
+        //     if (InstaObj.id === checkId) {
+        //         return true;
+        //     } else {
+        //         return false;
+        //     }
+        // });
+
+    }
+
 
 
 
     $scope.loadResultsBtnClick = function() {
         runInstaQuery($scope.queryTerms);
+        console.log($rootScope.LoggedUser);
+        console.log($rootScope.activeDataBox);
     };
+
 
 
     $scope.searchEntered = function() {

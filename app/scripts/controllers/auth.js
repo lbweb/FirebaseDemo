@@ -72,6 +72,8 @@ app.controller('AuthCtrl', function($scope, Auth, $log, $firebaseSimpleLogin, $l
         show: false
     });
 
+
+
     $scope.showLoginModal = function() {
         loginModal.$promise.then(loginModal.show);
     };

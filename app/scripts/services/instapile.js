@@ -28,6 +28,9 @@ app.factory('Instapile', function($firebase, FIREBASE_URL, $rootScope, Databox) 
                 return false
             }
         },
+        get: function(key) {
+            return InstaPile.$getRecord(key);
+        },
         list: function() {
             return InstaPile;
         },
@@ -37,6 +40,7 @@ app.factory('Instapile', function($firebase, FIREBASE_URL, $rootScope, Databox) 
         delete: function(ref) {
             return InstaPile.$remove(ref);
         }
+
     };
 
     return InstaPile;

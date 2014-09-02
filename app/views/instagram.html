@@ -78,8 +78,10 @@
 
 
 
-                                    <div class="repeat-item col-md-3" ng-repeat="(key, post) in currentInstaObject.currentData">
-                                            <insta-directive data=post></insta-directive>
+              <div class="repeat-item col-md-3" ng-repeat="(key, post) in InstaList" >
+
+                                      <div ng-show="!post.pinned">{{post.id}} {{post.pinned}}</div>
+                                      <insta-directive data=post index="{{$index}}"></insta-directive>
                                     </div>
 
 
