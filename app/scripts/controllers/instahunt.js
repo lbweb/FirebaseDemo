@@ -39,48 +39,46 @@ app.controller('InstaCtrl', function($scope, instaAPI, $log, Instapile, $rootSco
 
     var runInstaQuery = function(max_id) {
 
+        //when query is ran load up the instaGram list
         Instapile.loadUp().then(function() {
 
             InstaPileList = Instapile.list();
 
+
             instaAPI.getTagQuery($scope.queryTerms, max_id).success(function(InstaObject) {
 
-
-                //LOAD UP CHANGES
-
-
                 angular.forEach(InstaObject.data, function(value, key) {
-                    // console.log('KEY = ' + key);
                     angular.forEach(InstaPileList, function(instaValue, key) {
-                        //console.log(instaValue.id);
-                        //console.log(value.id);
                         if (instaValue.id === value.id) {
                             value.pinned = true;
                         }
                     });
+                    //once pin is applied (if it exists) add to scoep array
                     $scope.InstaList.push(value);
-                });
+                }); //end new array
 
 
 
-                //WATCH FOR FURTHER CHANGES
+                //WATCH FOR FURTHER CHANGES on InstaPile Object
 
                 Instapile.list().$watch(function(event) {
-                    console.log(event);
-
+                    //get the key of the changed object
                     var changedObj = Instapile.get(event.key);
-
-                    angular.forEach(InstaPileList, function(obj, key) {
-
+                    //loop through each instaitem on the screen
+                    angular.forEach($scope.InstaList, function(obj, key) {
                         if (obj.id === changedObj.id) {
-                            console.log(obj);
-                            console.log(changedObj);
+                            //if match found, make sure you "Pin it" to avoide double data-entry.
+                            $scope.InstaList[key].pinned = true;
                         }
                     });
                 });
 
+
+                // END WATCH FOR CHANGES
+
             })
                 .error(function(data) {
+                    //erorr if InstaItems don't load
                     $log.info(data);
                 });
 
