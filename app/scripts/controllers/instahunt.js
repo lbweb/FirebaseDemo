@@ -10,55 +10,32 @@
  * Controller of the instaViewApp
  */
 
-app.controller('InstaCtrl', function($scope, instaAPI, $log, Instapile, $rootScope, waitForAuth) {
-
-    var counter = 0;
-    var globalIteration = 0;
-
-    var InstaPileList = [];
+app.controller('InstaCtrl', function($scope, instaAPI, $log, Instapile, $rootScope, waitForAuth, tempInsta, Databox) {
 
 
-
-    $scope.InstaList = [];
-
-    $scope.queryTerms = '';
+    $scope.queryTerms = tempInsta.queryterms;
+    $scope.InstaList = tempInsta.instaPosts;
+    $scope.currentSearchQuery = tempInsta.currentSearchQuery;
+    var counter = tempInsta.counter;
     $scope.showLoading = false;
     $scope.showTagResult = false;
-
-
-    $scope.currentSearchQuery = 'Insert Search Query';
+    var InstaPileList = tempInsta.instaPileList;
+    var nextMaxTag;
+    var currentMinTag;
 
     var showTagLoading = function() {
         $scope.showLoading = true;
     };
 
-    var showTagResult = function() {
-        $scope.showLoading = false;
-        $scope.showTagResult = true;
-    };
-
-    var runInstaQuery = function(max_id) {
-
-        //when query is ran load up the instaGram list
-        Instapile.loadUp().then(function() {
-
-            InstaPileList = Instapile.list();
-
-
-            instaAPI.getTagQuery($scope.queryTerms, max_id).success(function(InstaObject) {
-
-                angular.forEach(InstaObject.data, function(value, key) {
-                    angular.forEach(InstaPileList, function(instaValue, key) {
-                        if (instaValue.id === value.id) {
-                            value.pinned = true;
-                        }
-                    });
-                    //once pin is applied (if it exists) add to scoep array
-                    $scope.InstaList.push(value);
-                }); //end new array
-
-
-
+    //Load Up Instagram List
+    $rootScope.$watch('activeDataBox', function(newVal, oldVal) {
+        if (newVal !== null) {
+            Instapile.loadUp().then(function() {
+                console.log('loaded');
+                tempInsta.initalized = true;
+                tempInsta.instaPileList = Instapile.list();
+                InstaPileList = Instapile.list();
+                console.log(InstaPileList);
                 //WATCH FOR FURTHER CHANGES on InstaPile Object
 
                 Instapile.list().$watch(function(event) {
@@ -68,55 +45,93 @@ app.controller('InstaCtrl', function($scope, instaAPI, $log, Instapile, $rootSco
                     angular.forEach($scope.InstaList, function(obj, key) {
                         if (obj.id === changedObj.id) {
                             //if match found, make sure you "Pin it" to avoide double data-entry.
+                            tempInsta.instaPileList[key].pinned = true;
                             $scope.InstaList[key].pinned = true;
                         }
                     });
                 });
 
-
                 // END WATCH FOR CHANGES
 
-            })
-                .error(function(data) {
-                    //erorr if InstaItems don't load
-                    $log.info(data);
-                });
 
-        });
+
+            });
+        }
+    });
+
+
+
+    var showTagResult = function() {
+        $scope.showLoading = false;
+        $scope.showTagResult = true;
     };
 
 
 
+    var runInstaQuery = function(queryTerms, max_id) {
 
-    $scope.isPinned = function(checkId) {
+        console.log(queryTerms);
 
-        // angular.forEach($scope.InstaPileList, function(InstaObj) {
-        //     console.log(InstaObj);
-        //     if (InstaObj.id === checkId) {
-        //         return true;
-        //     } else {
-        //         return false;
-        //     }
-        // });
+        instaAPI.getTagQuery(queryTerms, max_id).success(function(InstaObject) {
 
-    }
+            nextMaxTag = InstaObject.pagination.next_max_tag_id;
+            currentMinTag = InstaObject.pagination.min_tag_id;
+
+            console.log(nextMaxTag);
+            console.log(currentMinTag);
+            console.log(InstaObject);
+
+            angular.forEach(InstaObject.data, function(value, key) {
+                angular.forEach(InstaPileList, function(instaValue, key) {
+                    if (instaValue.id === value.id) {
+                        value.pinned = true;
+                    }
+                });
+                //once pin is applied (if it exists) add to scoep array
+                tempInsta.instaPosts.push(value);
+                //$scope.InstaList.push(value);
+
+            }); //end new array
 
 
+
+        })
+            .error(function(data) {
+                //erorr if InstaItems don't load
+                $log.info(data);
+            });
+    };
 
 
     $scope.loadResultsBtnClick = function() {
         runInstaQuery($scope.queryTerms);
-        console.log($rootScope.LoggedUser);
-        console.log($rootScope.activeDataBox);
     };
 
+    $scope.loadPreviousQuery = function() {
+        nextMaxTag = $rootScope.activeDataBox.maxTag;
+        $scope.queryTerms = $rootScope.activeDataBox.queryTerms;
+        runInstaQuery($rootScope.activeDataBox.queryTerms, $rootScope.activeDataBox.maxTag);
+    };
 
+    $scope.loadMorePosts = function() {
+        runInstaQuery($scope.queryTerms, nextMaxTag);
+    };
+
+    $scope.saveMySpot = function() {
+
+        Databox.saveMySpot(currentMinTag, $scope.queryTerms).then(function() {
+            console.log('this has been saved');
+        });
+        //User.saveMySpot($rootScope.activeDataBox, nextMaxTag);
+    };
 
     $scope.searchEntered = function() {
         $scope.showTagResult = false;
-        $scope.queryTerms = $scope.currentSearchQuery;
-        showTagLoading();
 
+        $scope.queryTerms = $scope.currentSearchQuery;
+        tempInsta.currentSearchQuery = $scope.currentSearchQuery;
+        tempInsta.queryTerms = $scope.queryTerms;
+        showTagLoading();
         instaAPI.getTagCount($scope.queryTerms).then(function(d) {
             $scope.queryResults = d.data.data.media_count;
             showTagResult();

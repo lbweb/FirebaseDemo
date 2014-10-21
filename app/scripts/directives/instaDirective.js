@@ -17,10 +17,11 @@ app.directive('instaDirective', function(Instapile) {
                 var tempObj = {};
                 scope.post.pinned = true;
                 angular.copy(scope.post, tempObj);
+                tempObj.pinned_time = Date.now();
                 Instapile.add(tempObj).then(function(ref) {
                     var id = ref.name();
                 });
             };
         }
-    }
+    };
 });

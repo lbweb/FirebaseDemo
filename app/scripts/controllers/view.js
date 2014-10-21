@@ -13,6 +13,7 @@
 app.controller('ViewCtrl', function($scope, instaAPI, $log, Instapile, $rootScope) {
 
 
+
     $rootScope.$watch('activeDataBox', function(newVal, oldVal) {
         if (newVal !== null) {
             $scope.instapile = Instapile.list();

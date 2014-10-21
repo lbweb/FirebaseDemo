@@ -21,6 +21,29 @@ app.factory('Databox', function($firebase, FIREBASE_URL, $rootScope, $q) {
         UserDatabox = databoxes;
     }
 
+
+
+    function saveSpot(maxTag, queryTerms) {
+
+        var ref = new Firebase(FIREBASE_URL + '/databoxes/' + $rootScope.LoggedUser.uid + '/' + $rootScope.activeDataBox.$id);
+        var obj = $firebase(ref).$asObject();
+        var deferred = $q.defer();
+        obj.$loaded()
+            .then(function(data) {
+                data.maxTag = maxTag;
+                data.modified = Date.now();
+                data.queryTerms = queryTerms;
+                obj = data;
+                obj.$save().then(function(ref) {
+                    ref.name() === obj.$id; // true
+                    obj.$destroy();
+                    deferred.resolve(ref);
+                });
+            });
+
+        return deferred.promise;
+    }
+
     function loadAllDataboxes(uid, databoxKey) {
         var allRef = new Firebase(FIREBASE_URL + '/databoxes/' + uid + '/' + databoxKey);
         console.log(uid);
@@ -42,6 +65,9 @@ app.factory('Databox', function($firebase, FIREBASE_URL, $rootScope, $q) {
         },
         listOthers: function(id) {
             console.log(id);
+        },
+        saveMySpot: function(maxTag, queryTerms) {
+            return saveSpot(maxTag, queryTerms);
         },
         addOthers: function(uid, databoxData) {
             var deferred = $q.defer();

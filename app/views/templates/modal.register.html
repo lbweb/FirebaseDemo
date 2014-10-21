@@ -30,8 +30,14 @@
                         <input type="password" class="form-control" id="confirmpassword" placeholder="ConfirmPassword"  ng-model="user.confirm.password">
                       </div>
 
+              <div class="alert alert-success" role="alert" ng-show="showLoading">
+               <i class="fa fa-refresh fa-spin"></i> <b>Registering User </b></div>
 
-                      <button class="btn btn-default" ng-click="registerUser()">Submit</button>
+               <div class="alert alert-warning" role="alert" ng-show="registerError">
+               <i class="fa fa-warning"></i> <b>{{registerError}}</b></div>
+
+
+                      <button class="btn btn-default" ng-click="registerUser()" >Submit </button>
                     </form>
       </div>
 

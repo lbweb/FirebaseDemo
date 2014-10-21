@@ -13,9 +13,18 @@ app.factory('Auth', function($firebaseSimpleLogin, FIREBASE_URL, $rootScope, Dat
             fireAuth.$createUser(user.email, user.password).then(function(userData) {
                 User.createUser(userData).then(function(e) {
                     if (e.uid !== null) {
-                        deferred.resolve();
+                        //fireAuth.$login('password', user);
+                        deferred.resolve(e);
                     }
                 });
+            }, function(error) {
+                var notice = 'test';
+                if (error.code === 'INVALID_EMAIL') {
+                    notice = 'Sorry, the email address provided is invalid';
+                } else if (error.code === 'EMAIL_TAKEN') {
+                    notice = 'Sorry, the email address provided is already in use';
+                }
+                deferred.reject(notice);
             });
             return deferred.promise;
         },

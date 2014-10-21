@@ -20,10 +20,14 @@
 <div class="row">
  <div class="col-md-12">
 
+             <button class="btn btn-primary"   ng-click="loadPreviousQuery()">Load My Old Spot</button>
+
             <div class="queryTerms"  ng-show="showLoading" class="pull-left">Running Query on Term: <b> {{ queryTerms }} .... </b></div>
             <div class="queryResults"  ng-show="showTagResult">Total Posts with terms:<b> {{ queryTerms }}  </b> is {{ queryResults }}
 
             <button class="btn btn-primary"   ng-click="loadResultsBtnClick()">Show me what you got!</button>
+
+
 
             </div>
 </div>
@@ -85,6 +89,14 @@
 
 </div>
 </div>
+</div>
+
+<div class="row">
+<div class="col-md-12">
+      <button class="btn-primary" ng-click="loadMorePosts()">Load More</button>
+      <button class="btn-primary" ng-click="saveMySpot()">Save My Spot</button>
+</div>
+
 </div>
 
 

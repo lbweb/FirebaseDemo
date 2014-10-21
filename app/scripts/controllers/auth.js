@@ -19,8 +19,8 @@ app.controller('AuthCtrl', function($scope, Auth, $log, $firebaseSimpleLogin, $l
 
 
 
-    $scope.testVar = 'hello';
-
+    $scope.showLoading = false;
+    $scope.registerError = null;
     $scope.errors = [];
 
     $rootScope.$watch('activeDataBox', function(newVal, oldVal) {
@@ -30,10 +30,16 @@ app.controller('AuthCtrl', function($scope, Auth, $log, $firebaseSimpleLogin, $l
 
     $scope.registerUser = function() {
 
+
+        $scope.showLoading = true;
+
+
         Auth.register($scope.user).then(function() {
+            $scope.showLoading = false;
             registerModal.hide();
         }, function(error) {
-            $log.info(error);
+            $scope.showLoading = false;
+            $scope.registerError = error;
         });
 
     };

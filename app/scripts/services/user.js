@@ -1,3 +1,4 @@
+/* global Firebase */
 'use strict';
 
 
@@ -6,6 +7,7 @@ app.factory('User', function($firebase, FIREBASE_URL, $rootScope, $q) {
     var refurl = FIREBASE_URL + 'users/';
     var ref = new Firebase(refurl);
     var sync = $firebase(ref);
+    var list = sync.$asArray();
 
 
     var User = {
@@ -19,9 +21,9 @@ app.factory('User', function($firebase, FIREBASE_URL, $rootScope, $q) {
             return deferred.promise;
         },
         listUsers: function(uid) {
-            var list = sync.$asArray();
+
             var fullList = list.$loaded().then(function() {
-                console.log("list has " + list.length + " items");
+                console.log('list has' + list.length + 'items');
                 return list;
             });
             return fullList;

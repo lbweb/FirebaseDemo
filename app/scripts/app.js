@@ -63,4 +63,5 @@ var app = angular.module('firebaseDemoApp', [
     .constant('loginRedirectPath', '/login')
     .run(function($rootScope) {
         $rootScope.activeDataBox = null;
+        $rootScope.loadingClass = 'off';
     });

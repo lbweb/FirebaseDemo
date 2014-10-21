@@ -5,8 +5,6 @@
 
 app.factory('Instapile', function($firebase, FIREBASE_URL, $rootScope, Databox) {
 
-    InstaPile = {};
-
 
 
     /*
@@ -25,7 +23,7 @@ app.factory('Instapile', function($firebase, FIREBASE_URL, $rootScope, Databox) 
                 loadInstaPile();
                 return InstaPile.$loaded();
             } else {
-                return false
+                return false;
             }
         },
         get: function(key) {
