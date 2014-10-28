@@ -9,7 +9,7 @@
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-    <link rel="stylesheet" href="bower_components/angular-motion/dist/angular-motion.min.css" />
+    <link rel="stylesheet" href="bower_components/angular-motion/dist/angular-motion.css" />
     <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css" />
     <!-- endbower -->
     <!-- endbuild -->
@@ -25,92 +25,87 @@
     <!-- Add your site or application content here -->
 
 
-<nav class="navbar navbar-default" role="navigation" >
-              <div class="container-fluid">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                  <button type="button" class="navbar-toggle" data-toggle="collapse"   bs-aside="aside">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                  </button>
-                  <a class="navbar-brand" href="#">Application Framework</a>
-                </div>
-
-                <!-- Collect the nav links, forms, and other content for toggling -->
-<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-
-
- <ul class="nav navbar-nav navbar-right" ng-controller="AuthCtrl" bs-navbar ng-cloak >
-
-
- <li ng-show-auth="login" ng-show='activeDataBox.name' >
-    <div class="btn-group">
-
-                <a type="button" ng-show="activeDataBox.name" class="btn btn-default navbar-btn">
-                  {{activeDataBox.name}}
-                  <span class="caret"></span>
-                </a>
-
-      <a type="button" class="btn btn-default navbar-btn" data-match-route="/#/instagram" href="/#/instagram/" >Find</a>
-      <a type="button" class="btn btn-default navbar-btn" data-match-route="/#/view" href="/#/view" >View</a>
-
-
-    </div>
-</li>
-
- <li ng-show-auth="login" >
-
-
- <div class="btn-group">
-  <a type="button" class="btn btn-danger navbar-btn" href="/#/account/">{{LoggedUser.email}}</a>
-  <button type="button" class="btn btn-danger navbar-btn dropdown-toggle" data-toggle="dropdown">
-    <span class="caret"></span>
-    <span class="sr-only">Toggle Dropdown</span>
-  </button>
-  <ul class="dropdown-menu" role="menu">
-    <li><a href="/#/databoxes">Manage Databoxes</a></li>
-   <!--  <li><a href="#">Another action</a></li>
-    <li><a href="#">Something else here</a></li>
-    <li class="divider"></li>
-    <li><a href="#">Separated link</a></li> -->
-  </ul>
-</div>
-</li>
-
-<li ng-show-auth="['logout','error']"><a ng-click="showRegisterModal()" href="#">Register</a></li>
-<li><a href="#" ng-show-auth="login" ng-click="logout()"  >Logout</a></li>
-
- <li><a class="" href="#" ng-hide="isSignedIn()" ng-click="showLoginModal()">Login</a></li>
-
-</ul>
-                </div><!-- /.navbar-collapse -->
-              </div><!-- /.container-fluid -->
-            </nav>
-
-
-
-
-
-</div>
-
-            <div class="main">
-              <div class="container-fluid">
-              <div ng-view=""></div>
-              </div>
-            </div>
-
-
-
-      <div class="footer">
-        <div class="container-fluid">
-        <p><span class="glyphicon glyphicon-hand-right"></span>  Footer Content here</p>
-        </div>
+  <nav class="navbar navbar-default" role="navigation" >
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse"   bs-aside="aside">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Application Framework</a>
       </div>
 
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right" ng-controller="AuthCtrl" bs-navbar ng-cloak >
+          <li ng-show-auth="login" ng-show='activeDataBox.name' >
+          <div class="btn-group">
 
+          <a type="button" ng-show="activeDataBox.name" class="btn btn-default navbar-btn">
+            {{activeDataBox.name}}
+            <span class="caret"></span>
+          </a>
 
+          <a type="button" class="btn btn-default navbar-btn" data-match-route="/#/instagram" href="/#/instagram/" >Find</a>
+          <a type="button" class="btn btn-default navbar-btn" data-match-route="/#/view" href="/#/view" >View</a>
+          <a type="button" class="btn btn-default navbar-btn" data-match-route="/#/map" href="/#/map" >Map</a>
+
+          </div>
+          </li>
+
+          <li ng-show-auth="login" >
+
+          <div class="btn-group">
+            <a type="button" class="btn btn-danger navbar-btn" href="/#/account/">{{LoggedUser.email}}</a>
+
+            <button type="button" class="btn btn-danger navbar-btn dropdown-toggle" data-toggle="dropdown">
+              <span class="caret"></span>
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="/#/databoxes">Manage Databoxes</a></li>
+              <!--
+              <li><a href="#">Another action</a></li>
+              <li><a href="#">Something else here</a></li>
+              <li class="divider"></li>
+              <li><a href="#">Separated link</a></li>
+              -->
+            </ul>
+          </div>
+          </li>
+
+          <li ng-show-auth="['logout','error']">
+            <a ng-click="showRegisterModal()" href="#">Register</a>
+          </li>
+
+          <li>
+            <a href="#" ng-show-auth="login" ng-click="logout()"  >Logout</a>
+          </li>
+
+          <li>
+            <a class="" href="#" ng-hide="isSignedIn()" ng-click="showLoginModal()">Login</a>
+          </li>
+
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+
+  <div class="main">
+    <div class="container-fluid">
+    <div ng-view=""></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="container-fluid">
+    <p><span class="glyphicon glyphicon-hand-right"></span>  Footer Content here</p>
+    </div>
+  </div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
      <script>
@@ -130,6 +125,8 @@
     <![endif]-->
     <!-- endbuild -->
 
+    <script src="http://maps.google.com/maps/api/js"></script>
+
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
@@ -146,6 +143,7 @@
     <script src="bower_components/angular-strap/dist/angular-strap.min.js"></script>
     <script src="bower_components/angular-strap/dist/angular-strap.tpl.min.js"></script>
     <script src="bower_components/firebase-simple-login/firebase-simple-login.js"></script>
+    <script src="bower_components/mockfirebase/dist/mockfirebase.js"></script>
     <script src="bower_components/angularfire/dist/angularfire.min.js"></script>
     <script src="bower_components/get-style-property/get-style-property.js"></script>
     <script src="bower_components/get-size/get-size.js"></script>
@@ -159,34 +157,32 @@
     <script src="bower_components/masonry/masonry.js"></script>
     <script src="bower_components/imagesloaded/imagesloaded.js"></script>
     <script src="bower_components/angular-masonry/angular-masonry.js"></script>
+    <script src="bower_components/ngmap/build/scripts/ng-map.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
-   <script src="scripts/libs/module.simpleLoginTools.js"></script>
+    <script src="scripts/libs/module.simpleLoginTools.js"></script>
+    <script src="scripts/libs/module.routeSecurity.js"></script>
 
-   <script src="scripts/libs/module.routeSecurity.js"></script>
-
-        <!-- build:js({.tmp,app}) scripts/scripts.js -->
-
-        <script src="scripts/app.js"></script>
-        <script src="scripts/services/auth.js"></script>
-        <script src="scripts/services/user.js"></script>
-        <script src="scripts/services/databox.js"></script>
-        <script src="scripts/services/tempInstaService.js"></script>
-         <script src="scripts/services/instapi.js"></script>
-          <script src="scripts/services/instapile.js"></script>
-        <script src="scripts/controllers/view.js"></script>
-        <script src="scripts/controllers/instahunt.js"></script>
-        <script src="scripts/controllers/main.js"></script>
-        <script src="scripts/controllers/map.js"></script>
-        <script src="scripts/controllers/about.js"></script>
-        <script src="scripts/controllers/databoxes.js"></script>
-        <script src="scripts/controllers/login.js"></script>
-        <script src="scripts/controllers/auth.js"></script>
-        <script src="scripts/controllers/explore.js"></script>
-        <script src="scripts/directives/instaDirective.js"></script>
-
-
-        <!-- endbuild -->
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/app.js"></script>
+    <script src="scripts/services/auth.js"></script>
+    <script src="scripts/services/user.js"></script>
+    <script src="scripts/services/databox.js"></script>
+    <script src="scripts/services/tempInstaService.js"></script>
+    <script src="scripts/services/instapi.js"></script>
+    <script src="scripts/services/instapile.js"></script>
+    <script src="scripts/services/instageo.js"></script>
+    <script src="scripts/controllers/view.js"></script>
+    <script src="scripts/controllers/instahunt.js"></script>
+    <script src="scripts/controllers/main.js"></script>
+    <script src="scripts/controllers/map.js"></script>
+    <script src="scripts/controllers/about.js"></script>
+    <script src="scripts/controllers/databoxes.js"></script>
+    <script src="scripts/controllers/login.js"></script>
+    <script src="scripts/controllers/auth.js"></script>
+    <script src="scripts/controllers/explore.js"></script>
+    <script src="scripts/directives/instaDirective.js"></script>
+    <!-- endbuild -->
 </body>
 </html>

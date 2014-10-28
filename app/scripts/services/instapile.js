@@ -3,7 +3,7 @@
 'use strict';
 
 
-app.factory('Instapile', function($firebase, FIREBASE_URL, $rootScope, Databox) {
+app.factory('Instapile', function($firebase, FIREBASE_URL, $rootScope, Databox, Instageo) {
 
 
 
@@ -33,6 +33,9 @@ app.factory('Instapile', function($firebase, FIREBASE_URL, $rootScope, Databox) 
             return InstaPile;
         },
         add: function(instaPost) {
+            // if (instaPost.hasOwnProperty('location')) {
+            //     Instageo.create()
+            // }
             return InstaPile.$add(instaPost);
         },
         delete: function(ref) {

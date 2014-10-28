@@ -7336,14 +7336,14 @@ h2 {
     right: 0px;
   }
   /*
- * ngRepeat triggers three animation events: enter, leave and move.
- */
+   * ngRepeat triggers three animation events: enter, leave and move.
+   */
   /* 50ms between each item being animated after the other */
   /* this is required here to prevent any CSS inheritance issues */
   /* ending enter and move styling
-   (this is what the element will animate from */
+     (this is what the element will animate from */
   /* ending enter and move styling
-   (this is what the element will animate towards */
+     (this is what the element will animate towards */
   /* starting leave animation */
   /* ending leave animation */
   .masonry-brick {
@@ -7356,4 +7356,9 @@ h2 {
     display: block;
     opacity: 1;
   }
+}
+map {
+  width: 100%;
+  height: 100%;
+  padding: 14px 0;
 }

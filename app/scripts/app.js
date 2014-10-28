@@ -19,7 +19,8 @@ var app = angular.module('firebaseDemoApp', [
         'mgcrea.ngStrap',
         'routeSecurity',
         'simpleLoginTools',
-        'wu.masonry'
+        'wu.masonry',
+        'ngMap'
     ])
     .config(function($routeProvider) {
         $routeProvider
@@ -30,10 +31,6 @@ var app = angular.module('firebaseDemoApp', [
             .when('/about', {
                 templateUrl: 'views/about.html',
                 controller: 'AboutCtrl'
-            })
-            .when('/map', {
-                templateUrl: 'views/map.html',
-                controller: 'mapCtrl'
             })
             .when('/login', {
                 templateUrl: 'views/login.html',
@@ -54,6 +51,10 @@ var app = angular.module('firebaseDemoApp', [
             .when('/view', {
                 templateUrl: 'views/viewdata.html',
                 controller: 'ViewCtrl'
+            })
+            .when('/map', {
+                templateUrl: 'views/map.html',
+                controller: 'mapCtrl'
             })
             .otherwise({
                 redirectTo: '/'
